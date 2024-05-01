@@ -53,11 +53,11 @@ public class MemberDTO {
 
         public static JoinResponse of(Member member) {
             return JoinResponse.builder()
-              .id(member.getId())
-              .email(member.getEmail())
-              .status(member.getStatus())
-              .role(member.getRole())
-              .build();
+                .id(member.getId())
+                .email(member.getEmail())
+                .status(member.getStatus())
+                .role(member.getRole())
+                .build();
         }
 
     }
@@ -101,15 +101,15 @@ public class MemberDTO {
 
         public static LoginResponse of(Member member, String accessToken) {
             return LoginResponse.builder()
-              .id(member.getId())
-              .email(member.getEmail())
-              .name(member.getName())
-              .birth(member.getBirth())
-              .status(member.getStatus())
-              .role(member.getRole())
-              .credit(member.getCredit())
-              .accessToken(accessToken)
-              .build();
+                .id(member.getId())
+                .email(member.getEmail())
+                .name(member.getName())
+                .birth(member.getBirth())
+                .status(member.getStatus())
+                .role(member.getRole())
+                .credit(member.getCredit())
+                .accessToken(accessToken)
+                .build();
         }
 
     }
@@ -132,12 +132,12 @@ public class MemberDTO {
 
         public static SimpleResponse of(Member member) {
             return SimpleResponse.builder()
-              .id(member.getId())
-              .name(member.getName())
-              .email(member.getEmail())
-              .city(member.getCity())
-              .credit(member.getCredit())
-              .build();
+                .id(member.getId())
+                .name(member.getName())
+                .email(member.getEmail())
+                .city(member.getCity())
+                .credit(member.getCredit())
+                .build();
         }
 
     }
@@ -174,19 +174,19 @@ public class MemberDTO {
 
         public static DetailResponse of(Member member) {
             return DetailResponse.builder()
-                    .id(member.getId())
-                    .profileImage(member.getProfileImage())
-                    .name(member.getName())
-                    .email(member.getEmail())
-                    .birth(member.getBirth())
-                    .status(member.getStatus())
-                    .role(member.getRole())
-                    .address(member.getAddress())
-                    .city(member.getCity())
-                    .nation(member.getNation())
-                    .zipCode(member.getZipCode())
-                    .credit(member.getCredit())
-                    .build();
+                .id(member.getId())
+                .profileImage(member.getProfileImage())
+                .name(member.getName())
+                .email(member.getEmail())
+                .birth(member.getBirth())
+                .status(member.getStatus())
+                .role(member.getRole())
+                .address(member.getAddress())
+                .city(member.getCity())
+                .nation(member.getNation())
+                .zipCode(member.getZipCode())
+                .credit(member.getCredit())
+                .build();
         }
 
     }
@@ -202,6 +202,22 @@ public class MemberDTO {
         private String city;
         private String nation;
         private String zipCode;
+    }
+
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @Builder
+    @Getter
+    public static class UpdateMemberRole {
+        private String email;
+        private MemberRole memberRole;
+
+        public static UpdateMemberRole of(Member member) {
+            return UpdateMemberRole.builder()
+                .email(member.getEmail())
+                .memberRole(member.getRole())
+                .build();
+        }
     }
 
 }

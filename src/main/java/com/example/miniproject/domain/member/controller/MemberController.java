@@ -14,6 +14,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.math.BigDecimal;
 import java.security.Principal;
 
 import static org.springframework.http.HttpStatus.*;
@@ -112,6 +113,25 @@ public class MemberController {
         Page<OrderDTO.OrderDetailResponse> myOrderList =
             memberService.getMyOrderList(authentication.getName(), pageable);
         return ResponseEntity.status(OK).body(ApiResponse.ok(myOrderList));
+    }
+
+    @PostMapping("/charge")
+    public ResponseEntity<ApiResponse<MemberDTO.SimpleResponse>> charge(
+        Authentication authentication,
+        @RequestParam BigDecimal credit
+    ) {
+        var response = memberService.updateCredit(authentication.getName(), credit);
+        return ResponseEntity.status(ACCEPTED).body(ApiResponse.ok(response));
+    }
+
+    @PostMapping("/modify-role")
+    public ResponseEntity<ApiResponse<MemberDTO.UpdateMemberRole>> modifyRole(
+        Authentication authentication,
+        @Validated
+        @RequestBody MemberDTO.UpdateMemberRole request
+    ) {
+        var response = memberService.updateRole(authentication.getName(), request);
+        return ResponseEntity.status(ACCEPTED).body(ApiResponse.ok(response));
     }
 
 }

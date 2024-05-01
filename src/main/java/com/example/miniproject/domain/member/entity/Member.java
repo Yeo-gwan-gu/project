@@ -6,6 +6,7 @@ import com.example.miniproject.domain.member.constant.MemberStatus;
 import com.example.miniproject.exception.ApiErrorCode;
 import com.example.miniproject.exception.ApiException;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.DecimalMax;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -44,6 +45,7 @@ public class Member extends BaseEntity {
     private MemberRole role;
 
     @Column(nullable = false, columnDefinition = "DECIMAL(11,4) NOT NULL COMMENT '포인트'")
+    @DecimalMax(message = "최대값이 넘어갔습니다. 적당히 주세요.", value = "9999999.9999")
     private BigDecimal credit;
 
     @Column(nullable = false, columnDefinition = "VARCHAR(255) NOT NULL COMMENT '인증코드'")
@@ -108,6 +110,14 @@ public class Member extends BaseEntity {
             throw new ApiException(ApiErrorCode.LACK_CREDIT.getDescription());
         }
         this.credit = credit.subtract(totalPrice);
+    }
+
+    public void updateCredit(BigDecimal charge) {
+        BigDecimal max = new BigDecimal("9999999.9999");
+        var result = this.credit = credit.add(charge);
+        if (result.compareTo(max) > 0) {
+            this.credit = max;
+        }
     }
 
 }

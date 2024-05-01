@@ -33,6 +33,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.UUID;
 
 @RequiredArgsConstructor
@@ -194,4 +195,18 @@ public class MemberService {
         mailSender.send(mimeMessage);
     }
 
+    public MemberDTO.SimpleResponse updateCredit(String email, BigDecimal credit) {
+        Member member = getValidMemberOrThrow(email);
+        member.updateCredit(credit);
+        updateMember(member);
+        return MemberDTO.SimpleResponse.of(member);
+    }
+
+    public MemberDTO.UpdateMemberRole updateRole(String email, MemberDTO.UpdateMemberRole request) {
+        getMasterMemberOrThrow(email);
+        Member targetMember = getValidMemberOrThrow(request.getEmail());
+        targetMember.updateRole(request.getMemberRole());
+        updateMember(targetMember);
+        return MemberDTO.UpdateMemberRole.of(targetMember);
+    }
 }
